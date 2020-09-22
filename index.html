@@ -1,0 +1,184 @@
+<html>
+  <head>
+  <title>Abdou Typing_game</title>
+  </head>
+  
+  <style>
+      body {
+  text-align: center;
+}
+.container {
+	max-width: 600px;
+	margin: 0 auto;
+	width: 100%;
+	text-align: center;
+	padding: 2%;
+	background-color:#CDC8C7;
+	height: 500px;
+}
+
+*{
+	box-sizing: border-box;
+  margin: 2;
+	padding: 2;
+}
+
+h1 + p {
+	margin-bottom: 5%;
+}
+
+input {
+    width: 200px;
+    height: 50px;
+    font-size: 150%;
+}
+
+.scoreDiv {float: left;}
+.timeDiv {float: right;}
+
+.scoreDiv {margin-left: -20px;}
+.timeDiv {margin-right: -30px;}
+
+
+#wordEnter{
+  color: black;
+}
+h2 {
+    color: cadetblue;
+    margin-top: 3px;
+    font-size: 150%;
+}
+button {
+   border: none;
+  background-color: darkcyan;
+  box-shadow: 0px 5px 0px 0px darkgray;
+  outline: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 22px;
+  text-decoration: none;
+  margin: 20px;
+  color: #fff;
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+
+.scoreDiv p, .scoreDiv span, .timeDiv p, .timeDiv span {
+  color: #ff7315;
+  font-size: 2.5em;
+}
+
+
+  </style>
+  <body>
+    <div class="container">
+
+    <h1> T Y P I N G _ G A M E</h1>
+      <h2 id ="randomText"></h2>    
+    <div>
+      <input type="text" id="inputWord">
+        </div> 
+    <button class="btn btn-danger">COMMENCER</button>
+    <div class="scoreAndTime">
+			<div class="scoreDiv">
+				<p>Score</p>
+				<span class="score">0</span>
+			</div>
+			<div class="timeDiv">
+				<p>Temps restant</p>
+				<span class="time">60</span>
+			</div>
+      <div class= "textInput">
+        <p id ="wordEnter"> </p> 
+      </div>
+		</div>
+    </div>
+  </body>
+
+
+
+  <script>
+let input = document.getElementById("inputWord");
+let wordRandomDisplay = document.getElementById('randomText');
+let button = document.querySelector("button");
+let temp = document.querySelector('.time');
+let score = document.querySelector('.score');
+let scoreDiv = document.querySelector('.score');
+let timerDiv = document.querySelector(".time");
+let gamerPseudo = document.querySelector('.gamerPseudo');
+let gamerScore = document.querySelector('.gamerScore');
+let seconds = 60;
+let points = 0;
+let isTyping = false;
+let letsGo = false;
+ 
+wordRandomDisplay.style.display="none";
+
+
+function getrandomWord(oldword) {
+  let words = ['angle', 'intérieur', 'abdou', 'game', 'charo', 'test', 'matelas', 'plafond', 'mousse', 'haut', 'caisse', 'tiroir', 'emmener', 'camarade', 'entourer', 'xylophone', 'couronne', 'entonnoir',
+'excuse', 'canard', 'escabeau', 'récréation', 'pâtisserie', 'rouleau', 'remercier', 'piraterie', 'charolife', 'haouioui', 'éteindre',
+'soupe', 'accoucher', 'flamme', 'poussin', 'maquillage', 'ressembler', 'vacances', 'bonbon', 'fauteuil', 'petit-enfant', 'jonquille'];;
+  let randomWord = words[Math.floor(Math.random() * words.length)];
+  if (oldword != randomWord){
+    return randomWord;
+  } else {
+    let newwords = words.filter(e => e !== oldword);
+    return newwords[Math.floor(Math.random() * newwords.length)];
+  }
+};
+
+getWord = (randomWord) => {
+  wordRandomDisplay.innerText = randomWord;
+};
+
+changeword = (word) => {
+  wordRandomDisplay.innerText = word;  
+};
+
+let randomWord = getrandomWord();
+getWord(randomWord);
+
+input.addEventListener('keyup', () => {
+  if (input.value.trim() == randomWord){
+    input.value = "";
+    typing();
+    let oldword = randomWord;
+    randomWord = getrandomWord(oldword);
+    changeword(randomWord);
+  }
+});
+function countdown() {
+ 		points = 0;
+ 		let timer = setInterval(function(){
+ 			button.disabled = true;
+    		seconds--;
+    		temp.innerHTML = seconds;
+      if (seconds === 0) {
+        alert("Partie terminée !!! votre score est " + points);
+        button.disabled = false;
+        clearInterval(timer);
+        seconds = 60;
+        timerDiv.innerHTML = "60";
+        scoreDiv.innerHTML = "0";
+        input.value = "";
+        wordRandomDisplay.style.display="none";
+        button.disabled = false;
+        window.location.reload();
+    		}
+ 		}, 1000);
+  	}
+
+button.addEventListener("click", function(e){
+      countdown();
+      wordRandomDisplay.style.display="block";
+  	});
+
+function typing() {
+  	points++;
+    score.innerHTML = points;
+}
+  </script>
+  </html>
